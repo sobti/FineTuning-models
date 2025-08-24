@@ -36,14 +36,15 @@ LoRA (Low-Rank Adaptation) adds small "adapters" to specific model weights and o
 - Speeds up training
 - Lets you keep/adapt multiple tasks by swapping adapters
 
+```python
 from peft import LoraConfig, get_peft_model, TaskType
 
 lora_config = LoraConfig(
-task_type=TaskType.CAUSAL_LM,
-r=8,
-lora_alpha=32,
-lora_dropout=0.05,
-target_modules=["q_proj", "v_proj"]
+    task_type=TaskType.CAUSAL_LM,
+    r=8,
+    lora_alpha=32,
+    lora_dropout=0.05,
+    target_modules=["q_proj", "v_proj"]
 )
 
 model = get_peft_model(model, lora_config)
