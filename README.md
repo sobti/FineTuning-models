@@ -151,8 +151,5 @@ By combining LoRA and quantization, we observed:
 
 If you want to fine-tune large AI models without massive compute, use LoRA and quantization together. These techniques democratize AI and enable personalized, efficient, and affordable deep learning in any setting.
 
----
 
-
-**Example: Apply LoRA with Hugging Face**
 
