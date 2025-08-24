@@ -50,7 +50,7 @@ lora_config = LoraConfig(
 model = get_peft_model(model, lora_config)
 print(model.print_trainable_parameters())
 
-
+```
 ---
 
 ## What is Model Quantization?
@@ -63,6 +63,8 @@ Quantization converts 32-bit (or 16-bit) weights to 8-bit or 4-bit. The result: 
 
 **Example: Load a Quantized Model**
 
+```python
+
 from transformers import AutoModelForCausalLM, BitsAndBytesConfig
 
 bnb_config = BitsAndBytesConfig(load_in_4bit=True)
@@ -72,7 +74,7 @@ quantization_config=bnb_config,
 device_map="auto"
 )
 
-
+```
 ---
 
 ## Why Use Both?
@@ -87,10 +89,12 @@ device_map="auto"
 
 Here’s how to combine LoRA and quantization for a fast, light fine-tune:
 
+Step 1: Load quantized model & tokenizer
+```python
+
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from peft import LoraConfig, get_peft_model, TaskType
 
-Step 1: Load quantized model & tokenizer
 bnb_config = BitsAndBytesConfig(load_in_4bit=True)
 model = AutoModelForCausalLM.from_pretrained(
 "your-pretrained-model",
@@ -99,7 +103,11 @@ device_map="auto"
 )
 tokenizer = AutoTokenizer.from_pretrained("your-pretrained-model")
 
+```
+
 Step 2: Prepare LoRA config and inject adapters
+
+```python
 lora_config = LoraConfig(
 task_type=TaskType.CAUSAL_LM,
 r=8,
@@ -110,7 +118,10 @@ target_modules=["q_proj", "v_proj"]
 model = get_peft_model(model, lora_config)
 model.print_trainable_parameters()
 
+```
 Step 3: (Usual) Training pipeline
+
+```python
 from transformers import TrainingArguments, Trainer
 
 training_args = TrainingArguments(
@@ -122,7 +133,7 @@ output_dir="./output"
 
 trainer = Trainer(model=model, args=training_args, train_dataset=my_dataset)
 trainer.train()
-
+```
 
 ---
 
